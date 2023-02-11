@@ -1,9 +1,8 @@
 <?php
 
 declare(strict_types=1);
-header("content-type: application/json; charset=UTF-8");
 
-require './config/controller.php';
+require './config/constants.php';
 
 // enable strict type because we are using type declarations in our classes
 
@@ -12,6 +11,11 @@ spl_autoload_register(function ($class) {
     require __DIR__ . "/source/$class.php";
 });
 
+// call our set_exception_handler function to handle exception and pass in our custom class
+// as a string paramter for custom error handling
+set_exception_handler("ErrorHandler::handleException");
+
+header("content-type: application/json; charset=UTF-8");
 
 // explode the request uri with '/' which will return all the uri parts
 $parts = explode('/', $_SERVER['REQUEST_URI']);
